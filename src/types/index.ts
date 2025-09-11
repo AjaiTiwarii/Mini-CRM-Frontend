@@ -7,38 +7,6 @@ export interface User {
   joinedAt?: string;
 }
 
-// Segment Types
-// export interface SegmentRule {
-//   id: string;
-//   field: 'totalSpent' | 'orderCount' | 'lastOrderDate' | 'daysInactive';
-//   operator: 'gt' | 'lt' | 'gte' | 'lte' | 'eq' | 'neq';
-//   value: string | number;
-//   logicalOperator?: 'AND' | 'OR';
-// }
-
-// export interface Segment {
-//   id?: string;
-//   name: string;
-//   description?: string;
-//   rules: SegmentRule[];
-//   audienceSize?: number;
-//   createdAt?: string;
-// }
-
-// // Campaign Types
-// export interface Campaign {
-//   id: string;
-//   name: string;
-//   segmentName?: string;
-//   segmentId?: string;
-//   audienceSize: number;
-//   sentCount: number;
-//   failedCount: number;
-//   status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'FAILED';
-//   createdAt: string;
-//   successRate?: string;
-// }
-
 // API Response Types
 export interface ApiResponse<T = any> {
   success?: boolean;
