@@ -1,6 +1,73 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { segmentAPI, campaignAPI } from '@/services/api';
+import { segmentAPI, campaignAPI, dataAPI } from '@/services/api';
 import type { Segment, SegmentRule, Campaign } from '@/types';
+
+// ==================== DATA INGESTION HOOKS ====================
+
+// Dashboard Stats
+export function useStats() {
+  return useQuery({
+    queryKey: ['stats'],
+    queryFn: dataAPI.getStats,
+    staleTime: 30000, // 30 seconds
+    select: (data) => data.data, // Extract data from API response
+  });
+}
+
+// Customers
+export function useCustomers() {
+  return useQuery({
+    queryKey: ['customers'],
+    queryFn: dataAPI.getCustomers,
+    staleTime: 60000, // 1 minute
+    select: (data) => data.data, // Extract { customers, total }
+  });
+}
+
+export function useCreateCustomer() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: dataAPI.createCustomer,
+    onSuccess: () => {
+      // Invalidate and refetch related data
+      queryClient.invalidateQueries({ queryKey: ['customers'] });
+      queryClient.invalidateQueries({ queryKey: ['stats'] });
+    },
+    onError: (error) => {
+      console.error('Failed to create customer:', error);
+    }
+  });
+}
+
+// Orders
+export function useOrders() {
+  return useQuery({
+    queryKey: ['orders'],
+    queryFn: dataAPI.getOrders,
+    staleTime: 60000, // 1 minute
+    select: (data) => data.data, // Extract { orders, total }
+  });
+}
+
+export function useCreateOrder() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: dataAPI.createOrder,
+    onSuccess: () => {
+      // Invalidate and refetch related data
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+      queryClient.invalidateQueries({ queryKey: ['customers'] });
+      queryClient.invalidateQueries({ queryKey: ['stats'] });
+    },
+    onError: (error) => {
+      console.error('Failed to create order:', error);
+    }
+  });
+}
+
+// ==================== EXISTING SEGMENT/CAMPAIGN HOOKS ====================
 
 // Segments
 export function useSegments() {

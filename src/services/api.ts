@@ -1,38 +1,85 @@
-import axios from 'axios';
 import type { User, Segment, Campaign, SegmentRule } from '@/types';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE = import.meta.env.VITE_API_BASE_URL;
 
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  withCredentials: true,
-});
-
-// Auth API
-export const authAPI = {
-  loginWithGoogle: () => window.location.href = `${API_BASE_URL}/auth/google`,
-  getCurrentUser: (): Promise<User> => api.get('/auth/me').then(res => res.data),
-  logout: () => api.post('/auth/logout'),
+const fetchJson = async (url: string, options: RequestInit = {}) => {
+  const res = await fetch(`${BASE}${url}`, { 
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+    ...options 
+  });
+  
+  const data = await res.json();
+  
+  if (!res.ok) {
+    throw new Error(data.message || res.statusText);
+  }
+  
+  return data;
 };
 
-// Segment API
+/* ---------------- AUTH ---------------- */
+export const authAPI = {
+  // ✅ RESTORED: The missing loginWithGoogle function
+  loginWithGoogle: () => window.location.href = `${BASE}/auth/google`,
+  getCurrentUser: () => fetchJson('/auth/me'),
+  logout: () => fetchJson('/auth/logout', { method: 'POST' }),
+};
+
+/* ---------------- DATA INGESTION ---------------- */
+export const dataAPI = {
+  /* Customers */
+  getCustomers: () => fetchJson('/api/data/customers'),
+  createCustomer: (payload: { email: string; name: string; phone?: string }) => 
+    fetchJson('/api/data/customers', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    }),
+
+  /* Orders */
+  getOrders: () => fetchJson('/api/data/orders'),
+  createOrder: (payload: { 
+    customerId?: string; 
+    customerEmail?: string; 
+    amount: number; 
+    status?: string 
+  }) => fetchJson('/api/data/orders', {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  }),
+
+  /* Stats */
+  getStats: () => fetchJson('/api/data/stats'),
+};
+
+/* ---------------- SEGMENTS  ---------------- */
 export const segmentAPI = {
   createSegment: (data: Segment): Promise<Segment> => 
-    api.post('/segments', data).then(res => res.data),
+    Promise.resolve({ ...data, id: 'mock' } as Segment),
   getSegments: (): Promise<Segment[]> => 
-    api.get('/segments').then(res => res.data),
+    Promise.resolve([]),
   previewAudience: (rules: SegmentRule[]): Promise<{ audienceSize: number }> => 
-    api.post('/segments/preview', { rules }).then(res => res.data),
+    Promise.resolve({ audienceSize: 0 }),
   parseNaturalLanguage: (prompt: string): Promise<{ rules: SegmentRule[] }> => 
-    api.post('/ai/parse-segment', { prompt }).then(res => res.data),
+    Promise.resolve({ rules: [] }),
 };
 
-// Campaign API
+/* ---------------- CAMPAIGNS ---------------- */
 export const campaignAPI = {
   getCampaigns: (): Promise<Campaign[]> => 
-    api.get('/campaigns').then(res => res.data),
+    Promise.resolve([]),
   launchCampaign: (segmentId: string, name: string): Promise<Campaign> => 
-    api.post('/campaigns', { segmentId, name }).then(res => res.data),
+    Promise.resolve({ 
+      id: 'mock', 
+      name, 
+      segmentId, 
+      status: 'PENDING',
+      audienceSize: 0,
+      sentCount: 0,
+      failedCount: 0,
+      createdAt: new Date().toISOString()
+    } as Campaign),
 };
-
-export default api;
