@@ -1,14 +1,38 @@
+// import React from 'react';
+// import { Header } from './Header';
+
+// interface LayoutProps {
+//   children: React.ReactNode;
+// }
+
+// export function Layout({ children }: LayoutProps) {
+//   return (
+//     <div className="min-h-screen bg-gray-50">
+//       <Header />
+//       <main className="max-w-7xl mx-auto px-6 py-8">
+//         {children}
+//       </main>
+//     </div>
+//   );
+// }
+
 import React from 'react';
 import { Header } from './Header';
 
-interface LayoutProps {
-  children: React.ReactNode;
+interface NavigationItem {
+  name: string;
+  href: string;
 }
 
-export function Layout({ children }: LayoutProps) {
+interface LayoutProps {
+  children: React.ReactNode;
+  navigationItems?: NavigationItem[];
+}
+
+export function Layout({ children, navigationItems }: LayoutProps) {
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      <Header navigationItems={navigationItems} />
       <main className="max-w-7xl mx-auto px-6 py-8">
         {children}
       </main>
