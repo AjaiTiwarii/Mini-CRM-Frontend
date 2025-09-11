@@ -8,36 +8,36 @@ export interface User {
 }
 
 // Segment Types
-export interface SegmentRule {
-  id: string;
-  field: 'totalSpent' | 'orderCount' | 'lastOrderDate' | 'daysInactive';
-  operator: 'gt' | 'lt' | 'gte' | 'lte' | 'eq' | 'neq';
-  value: string | number;
-  logicalOperator?: 'AND' | 'OR';
-}
+// export interface SegmentRule {
+//   id: string;
+//   field: 'totalSpent' | 'orderCount' | 'lastOrderDate' | 'daysInactive';
+//   operator: 'gt' | 'lt' | 'gte' | 'lte' | 'eq' | 'neq';
+//   value: string | number;
+//   logicalOperator?: 'AND' | 'OR';
+// }
 
-export interface Segment {
-  id?: string;
-  name: string;
-  description?: string;
-  rules: SegmentRule[];
-  audienceSize?: number;
-  createdAt?: string;
-}
+// export interface Segment {
+//   id?: string;
+//   name: string;
+//   description?: string;
+//   rules: SegmentRule[];
+//   audienceSize?: number;
+//   createdAt?: string;
+// }
 
-// Campaign Types
-export interface Campaign {
-  id: string;
-  name: string;
-  segmentName?: string;
-  segmentId?: string;
-  audienceSize: number;
-  sentCount: number;
-  failedCount: number;
-  status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'FAILED';
-  createdAt: string;
-  successRate?: string;
-}
+// // Campaign Types
+// export interface Campaign {
+//   id: string;
+//   name: string;
+//   segmentName?: string;
+//   segmentId?: string;
+//   audienceSize: number;
+//   sentCount: number;
+//   failedCount: number;
+//   status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'FAILED';
+//   createdAt: string;
+//   successRate?: string;
+// }
 
 // API Response Types
 export interface ApiResponse<T = any> {
@@ -73,4 +73,84 @@ export interface CreateSegmentForm {
 export interface CreateCampaignForm {
   segmentId: string;
   name: string;
+}
+
+// Add these types to your existing types/index.ts file
+
+export interface SegmentRule {
+  id?: string;
+  field: 'totalSpent' | 'orderCount' | 'lastOrderDate' | 'daysInactive';
+  operator: 'gt' | 'gte' | 'lt' | 'lte' | 'eq' | 'neq';
+  value: string | number;
+  logicalOperator?: 'AND' | 'OR';
+}
+
+export interface Segment {
+  id: string;
+  name: string;
+  description?: string;
+  rules: SegmentRule[];
+  audienceSize: number;
+  createdAt: string;
+}
+
+export interface Campaign {
+  id: string;
+  name: string;
+  segmentId: string;
+  status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'FAILED';
+  audienceSize: number;
+  sentCount: number;
+  failedCount: number;
+  createdAt: string;
+  updatedAt: string;
+  segment?: {
+    name: string;
+  };
+}
+
+export interface CommunicationLog {
+  id: string;
+  campaignId: string;
+  customerId: string;
+  message: string;
+  status: 'PENDING' | 'SENT' | 'FAILED';
+  sentAt?: string;
+  failedAt?: string;
+  failureReason?: string;
+  createdAt: string;
+}
+
+// You may already have these, but including for completeness
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
+}
+
+export interface Customer {
+  id: string;
+  email: string;
+  name: string;
+  phone?: string;
+  totalSpent: number;
+  orderCount: number;
+  lastOrderDate?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Order {
+  id: string;
+  customerId: string;
+  amount: number;
+  status: string;
+  orderDate: string;
+  createdAt: string;
+  customer?: {
+    id: string;
+    name: string;
+    email: string;
+  };
 }
