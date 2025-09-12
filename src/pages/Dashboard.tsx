@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, Users, MessageSquare, BarChart3, TrendingUp, Database, ShoppingCart } from 'lucide-react';
+import { Plus, Users, MessageSquare, BarChart3, TrendingUp, ShoppingCart } from 'lucide-react';
 import { useStats, useCustomers, useOrders } from '@/hooks/useApi';
 import { AddCustomerDialog } from '@/components/Data/AddCustomerDialog';
 import { AddOrderDialog } from '@/components/Data/AddOrderDialog';
@@ -41,8 +41,8 @@ export function Dashboard() {
 
   // Fetch real data from API
   const { data: stats, isLoading: statsLoading, error: statsError } = useStats();
-  const { data: customersData, isLoading: customersLoading } = useCustomers();
-  const { data: ordersData, isLoading: ordersLoading } = useOrders();
+  const { isLoading: customersLoading } = useCustomers();
+  const { isLoading: ordersLoading } = useOrders();
 
   // Loading state for the main stats
   if (statsLoading) {

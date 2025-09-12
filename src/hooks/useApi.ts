@@ -1,8 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { segmentAPI, campaignAPI, dataAPI } from '@/services/api';
-import type { Segment, SegmentRule, Campaign } from '@/types';
 
-// ==================== DATA INGESTION HOOKS ====================
+// DATA INGESTION HOOKS 
 export function useStats() {
   return useQuery({
     queryKey: ['stats'],
@@ -53,7 +52,7 @@ export function useCreateOrder() {
   });
 }
 
-// ==================== SEGMENT HOOKS ====================
+// SEGMENT HOOKS 
 export function useSegments() {
   return useQuery({
     queryKey: ['segments'],
@@ -78,7 +77,7 @@ export function usePreviewAudience() {
   });
 }
 
-// ==================== CAMPAIGN HOOKS ====================
+// CAMPAIGN HOOKS 
 export function useCampaigns() {
   return useQuery({
     queryKey: ['campaigns'],

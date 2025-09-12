@@ -1,4 +1,4 @@
-import type { User, Segment, Campaign, SegmentRule } from '@/types';
+import type { SegmentRule } from '@/types';
 
 const BASE = import.meta.env.VITE_API_BASE_URL;
 

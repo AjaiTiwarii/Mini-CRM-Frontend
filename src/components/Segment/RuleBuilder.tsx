@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { segmentAPI } from '@/services/api';
 import type { SegmentRule } from '@/types';
-import toast from 'react-hot-toast';
 
 interface RuleBuilderProps {
   rules: SegmentRule[];
