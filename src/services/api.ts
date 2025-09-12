@@ -49,7 +49,7 @@ export const dataAPI = {
   getStats: () => fetchJson('/api/data/stats'),
 };
 
-/* ---------------- SEGMENTS (REAL BACKEND) ---------------- */
+/* ---------------- SEGMENTS ---------------- */
 export const segmentAPI = {
   getSegments: () => fetchJson('/api/segments'),
   createSegment: (data: { name: string; description?: string; rules: SegmentRule[] }) => 
@@ -64,7 +64,7 @@ export const segmentAPI = {
     }),
 };
 
-/* ---------------- CAMPAIGNS (REAL BACKEND) ---------------- */
+/* ---------------- CAMPAIGNS ---------------- */
 export const campaignAPI = {
   getCampaigns: () => fetchJson('/api/campaigns'),
   createCampaign: (data: { segmentId: string; name: string }) => 

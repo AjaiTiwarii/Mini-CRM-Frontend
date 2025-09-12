@@ -89,7 +89,6 @@ export interface CommunicationLog {
   createdAt: string;
 }
 
-// You may already have these, but including for completeness
 export interface User {
   id: string;
   name: string;

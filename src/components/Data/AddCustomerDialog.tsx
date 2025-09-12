@@ -58,6 +58,7 @@ export function AddCustomerDialog({ open, onClose }: AddCustomerDialogProps) {
               <Input
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                required
               />
             </div>
           </div>
