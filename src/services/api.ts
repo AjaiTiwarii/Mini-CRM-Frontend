@@ -21,14 +21,14 @@ const fetchJson = async (url: string, options: RequestInit = {}) => {
   return data;
 };
 
-/* ---------------- AUTH ---------------- */
+//AUTH
 export const authAPI = {
   loginWithGoogle: () => window.location.href = `${BASE}/auth/google`,
   getCurrentUser: () => fetchJson('/auth/me'),
   logout: () => fetchJson('/auth/logout', { method: 'POST' }),
 };
 
-/* ---------------- DATA INGESTION ---------------- */
+// DATA INGESTION 
 export const dataAPI = {
   getCustomers: () => fetchJson('/api/data/customers'),
   createCustomer: (payload: { email: string; name: string; phone?: string }) => 
@@ -49,7 +49,7 @@ export const dataAPI = {
   getStats: () => fetchJson('/api/data/stats'),
 };
 
-/* ---------------- SEGMENTS ---------------- */
+//  SEGMENTS
 export const segmentAPI = {
   getSegments: () => fetchJson('/api/segments'),
   createSegment: (data: { name: string; description?: string; rules: SegmentRule[] }) => 
@@ -64,7 +64,7 @@ export const segmentAPI = {
     }),
 };
 
-/* ---------------- CAMPAIGNS ---------------- */
+// CAMPAIGNS
 export const campaignAPI = {
   getCampaigns: () => fetchJson('/api/campaigns'),
   createCampaign: (data: { segmentId: string; name: string }) => 
@@ -73,4 +73,7 @@ export const campaignAPI = {
       body: JSON.stringify(data)
     }),
   getCampaignDetails: (campaignId: string) => fetchJson(`/api/campaigns/${campaignId}`),
+  
+  //AI INSIGHTS ENDPOINTS
+  getCampaignInsights: (campaignId: string) => fetchJson(`/api/campaigns/${campaignId}/insights`),
 };

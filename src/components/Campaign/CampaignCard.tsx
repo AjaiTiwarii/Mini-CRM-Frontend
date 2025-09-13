@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Eye, Bot } from 'lucide-react';
 import type { Campaign } from '@/types';
 
 interface CampaignCardProps {
@@ -22,14 +24,24 @@ export function CampaignCard({ campaign, onViewDetails }: CampaignCardProps) {
     ? ((campaign.sentCount / campaign.audienceSize) * 100).toFixed(1)
     : '0';
 
+  const isCompleted = campaign.status === 'COMPLETED';
+
   return (
     <Card className="hover:shadow-md transition-shadow">
       <CardHeader>
         <div className="flex justify-between items-start">
           <CardTitle className="text-lg">{campaign.name}</CardTitle>
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(campaign.status)}`}>
-            {campaign.status}
-          </span>
+          <div className="flex items-center space-x-2">
+            {isCompleted && (
+              <div className="flex items-center text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
+                <Bot className="h-3 w-3 mr-1" />
+                <span className="text-xs font-medium">AI Ready</span>
+              </div>
+            )}
+            <Badge className={`${getStatusColor(campaign.status)}`}>
+              {campaign.status}
+            </Badge>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -44,11 +56,11 @@ export function CampaignCard({ campaign, onViewDetails }: CampaignCardProps) {
           </div>
           <div>
             <div className="text-gray-500">Messages Sent</div>
-            <div className="font-semibold text-green-600">{campaign.sentCount}</div>
+            <div className="font-semibold text-green-600">{campaign.sentCount.toLocaleString()}</div>
           </div>
           <div>
             <div className="text-gray-500">Failed</div>
-            <div className="font-semibold text-red-600">{campaign.failedCount}</div>
+            <div className="font-semibold text-red-600">{campaign.failedCount.toLocaleString()}</div>
           </div>
         </div>
 
@@ -61,9 +73,11 @@ export function CampaignCard({ campaign, onViewDetails }: CampaignCardProps) {
             variant="outline" 
             size="sm"
             onClick={() => onViewDetails(campaign.id)}
-            className="w-full"
+            className="w-full flex items-center justify-center space-x-2"
           >
-            View Details
+            <Eye className="h-4 w-4" />
+            <span>View Details</span>
+            {isCompleted && <Bot className="h-4 w-4 text-blue-600" />}
           </Button>
         )}
       </CardContent>

@@ -6,6 +6,7 @@ import { ProtectedRoute } from '@/components/Auth/ProtectedRoute'
 import { Dashboard } from '@/pages/Dashboard'
 import { CreateSegment } from '@/pages/CreateSegment'
 import { CampaignHistory } from '@/pages/CampaignHistory'
+import { CampaignDetails } from '@/pages/CampaignDetails'
 import { Login } from '@/pages/Login'
 
 const queryClient = new QueryClient()
@@ -50,6 +51,17 @@ function App() {
                 <ProtectedRoute>
                   <Layout navigationItems={navigationItems}>
                     <CampaignHistory />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            {/* NEW ROUTE FOR CAMPAIGN DETAILS */}
+            <Route
+              path="/campaigns/:id"
+              element={
+                <ProtectedRoute>
+                  <Layout navigationItems={navigationItems}>
+                    <CampaignDetails />
                   </Layout>
                 </ProtectedRoute>
               }

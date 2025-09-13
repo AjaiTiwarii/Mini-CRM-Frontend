@@ -43,7 +43,6 @@ export interface CreateCampaignForm {
   name: string;
 }
 
-// Add these types to your existing types/index.ts file
 
 export interface SegmentRule {
   id?: string;
@@ -62,20 +61,6 @@ export interface Segment {
   createdAt: string;
 }
 
-export interface Campaign {
-  id: string;
-  name: string;
-  segmentId: string;
-  status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'FAILED';
-  audienceSize: number;
-  sentCount: number;
-  failedCount: number;
-  createdAt: string;
-  updatedAt: string;
-  segment?: {
-    name: string;
-  };
-}
 
 export interface CommunicationLog {
   id: string;
@@ -120,4 +105,44 @@ export interface Order {
     name: string;
     email: string;
   };
+}
+
+export interface AIInsightsResponse {
+  insights: string;
+  generatedAt: string;
+}
+
+export interface CampaignWithAI extends Campaign {
+  aiInsights?: string;
+}
+
+
+export interface Campaign {
+  id: string;
+  name: string;
+  segmentId: string;
+  status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'FAILED';
+  audienceSize: number;
+  sentCount: number;
+  failedCount: number;
+  createdAt: string;
+  updatedAt: string;
+  segment?: {
+    name: string;
+    rules?: SegmentRule[];
+  };
+  aiInsights?: string;
+}
+
+// Component prop types for AI components
+export interface AIInsightsProps {
+  campaignId: string;
+  insights?: string;
+  loading: boolean;
+  error?: Error | null;
+  onRetry: () => void;
+}
+
+export interface CampaignDetailsProps {
+  campaignId: string;
 }

@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { segmentAPI, campaignAPI, dataAPI } from '@/services/api';
 
-// DATA INGESTION HOOKS 
+// DATA INGESTION HOOKS
 export function useStats() {
   return useQuery({
     queryKey: ['stats'],
@@ -102,5 +102,23 @@ export function useCampaignDetails(campaignId: string) {
     queryFn: () => campaignAPI.getCampaignDetails(campaignId),
     select: (data) => data.data?.campaign,
     enabled: !!campaignId,
+  });
+}
+
+// AI INSIGHTS HOOKS
+export function useCampaignInsights(campaignId: string, enabled: boolean = true) {
+  return useQuery({
+    queryKey: ['campaigns', campaignId, 'insights'],
+    queryFn: () => campaignAPI.getCampaignInsights(campaignId),
+    select: (data) => data.data?.insights,
+    enabled: !!campaignId && enabled,
+    staleTime: 5 * 60 * 1000, // 5 minutes 
+    retry: (failureCount, error: any) => {
+      // Don't retry if it's a 400 error (campaign not completed)
+      if (error?.message?.includes('Campaign insights only available for completed campaigns')) {
+        return false;
+      }
+      return failureCount < 2;
+    },
   });
 }
