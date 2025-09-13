@@ -11,11 +11,11 @@ A React-based frontend for the Mini CRM Platform with customer segmentation and 
 
 ## Quick Start
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/AjaiTiwarii/Mini-CRM-Backend.git
-   cd Mini-CRM-Backend
-   ```
+1. Clone the repository
+```bash
+git clone https://github.com/AjaiTiwarii/Mini-CRM-Backend.git
+cd Mini-CRM-Backend
+```
 
 2. Install dependencies:
 ```bash
